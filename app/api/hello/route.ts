@@ -2,9 +2,13 @@ import { NextResponse, NextRequest } from "next/server";
 import { Configuration, OpenAIApi } from "openai";
 
 const configuration = new Configuration({
-  apiKey: "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",
+  apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
+
+export const config = {
+  runtime: "edge",
+};
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -38,17 +42,16 @@ async function generate(text: string) {
       max_tokens: 500,
     });
     return completion.data.choices[0].text;
-  } catch (error) {
+  } catch (error: any) {
     if (error.response) {
-      console.error(error.response.status, error.response.data);
-      // res.status(error.response.status).json(error.response.data);
+      return new Response("An error occurred during your request", {
+        status: error.response.status,
+      });
     } else {
       console.error(`Error with OpenAI API request: ${error.message}`);
-      // res.status(500).json({
-      //   error: {
-      //     message: "An error occurred during your request.",
-      //   },
-      // });
+      return new Response("An error occurred during your request", {
+        status: 500,
+      });
     }
   }
 }
