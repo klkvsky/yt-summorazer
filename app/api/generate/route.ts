@@ -10,8 +10,6 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
 
-  console.log("started");
-
   const res = await fetch(`https://youtubetranscript.com/?server_vid=${id}`);
   const data = await res.text();
 
@@ -23,13 +21,10 @@ export async function GET(req: Request) {
   }
   const generatedSum = await generate(fullText);
 
-  console.log(generatedSum);
-
   return NextResponse.json({ generatedSum });
 }
 
 async function generate(text: string) {
-  console.log("started 2");
   try {
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
@@ -53,7 +48,6 @@ async function generate(text: string) {
 }
 
 function generatePrompt(text: string) {
-  console.log("started 3");
   // return `return string with summarization of next transcription: ${text} in 5 paragraphs`;
   return `I want you to act as an essay writer. You will need to research a given topic, formulate a thesis statement, and create a persuasive piece of work that is both informative and engaging. My first suggestion request is “I need to summoraze transcript of youtube video: ${text} under 2489 characters`;
 }
