@@ -7,17 +7,17 @@ import Link from "next/link";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Youtube Summorazer ",
-  description: "Generate transcription for YouTube video under 60 seconds",
+  title: "Youtube Summariser ",
+  description: "Generate TLDR for YouTube video under 60 seconds",
   generator: "Next.js",
-  applicationName: "Youtube Summorazer",
+  applicationName: "Youtube Summariser",
   referrer: "origin-when-cross-origin",
   keywords: [
     "Next.js",
     "React",
     "JavaScript",
     "Youtube",
-    "Summorazer",
+    "Summariser",
     "klkvsky",
   ],
   authors: [
@@ -34,10 +34,10 @@ export const metadata: Metadata = {
     telephone: false,
   },
   openGraph: {
-    title: "Youtube Summorazer ",
-    description: "Generate transcription for YouTube video under 60 seconds",
+    title: "Youtube Summariser",
+    description: "Generate TLDR for YouTube video under 60 seconds",
     url: "https://yt-summorazer.vercel.app/",
-    siteName: "Youtube Summorazer",
+    siteName: "Youtube Summariser",
     images: [
       {
         url: "https://nextjs.org/og.png",
