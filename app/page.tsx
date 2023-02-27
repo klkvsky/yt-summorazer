@@ -59,10 +59,10 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <main className="bg-white min-h-screen w-screen text-black text-center flex flex-col items-center gap-[20px] pt-[20vh]">
+      <main className="min-h-screen w-screen  text-center flex flex-col items-center gap-[20px] pt-[20vh]">
         <a
           href="https://github.com/klkvsky/yt-summorazer"
-          className="rounded-full border border-neutral-800 h-[44px] gap-2 px-3 hover:scale-[1.04] transition-all duration-300 ease-in-out cursor-pointer flex flex-row items-center group relative focus:scale-[1.04] hover:bg-black hover:text-white"
+          className="rounded-full border border-neutral-800 h-[44px] gap-2 px-3 hover:scale-[1.04] transition-all duration-300 ease-in-out cursor-pointer flex flex-row items-center group relative focus:scale-[1.04] hover:bg-black hover:text-white dark:border-neutral-600 dark:hover:bg-neutral-800"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +87,7 @@ export default function Home() {
 
         <Generate />
       </main>
-      <footer className="text-center h-16 sm:h-20 w-full sm:pt-2 pt-4 border-t mt-5 flex sm:flex-row flex-col justify-between items-center px-3 space-y-3 sm:mb-0 mb-3">
+      <footer className="text-center h-16 sm:h-20 w-full sm:pt-2 pt-4 border-t mt-5 flex sm:flex-row flex-col justify-between items-center px-3 space-y-3 sm:mb-0 mb-3 dark:border-t-neutral-800">
         <div>
           Powered by{" "}
           <a
@@ -112,7 +112,9 @@ export default function Home() {
           <Link
             href="https://twitter.com/klkvsky"
             className="group"
-            aria-label="TaxPal on Twitter"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="kulikovsky on Twitter"
           >
             <svg
               aria-hidden="true"
@@ -124,6 +126,8 @@ export default function Home() {
           <Link
             href="https://github.com/klkvsky/yt-summorazer"
             className="group"
+            target="_blank"
+            rel="noreferrer"
             aria-label="Repository on GitHub"
           >
             <svg

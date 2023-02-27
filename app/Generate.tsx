@@ -42,11 +42,11 @@ export default function Generate() {
   //
   function isYoutubeLink(text: string): boolean {
     const youtubeRegex =
-      /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[\w-]{11}$/i;
-    const mobileRegex =
-      /^(https?:\/\/)?(www\.)?(m\.)?youtube\.com\/watch\?v=([\w-]{11})(?:&\S+)?$/i;
-    if (youtubeRegex.test(text) || mobileRegex.test(text)) {
-      // If the text matches either the regular or mobile YouTube link regex, return true
+      /^(https?:\/\/)?(www\.)?(m\.)?youtu\.be\/([\w-]{11})(?:[#&?]t=([\dhms]+))?|^(https?:\/\/)?(www\.)?youtube\.com\/watch\?v=([\w-]{11})(?:[#&?]t=([\dhms]+))?$/i;
+    const mobileYoutubeRegex =
+      /^(https?:\/\/)?(www\.)?(m\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[\w-]{11}([\?&]t=(\d+[hms]?){1,3})?$/i;
+
+    if (youtubeRegex.test(text) || mobileYoutubeRegex.test(text)) {
       setIsLinkValid(true);
       return true;
     } else {
@@ -69,7 +69,7 @@ export default function Generate() {
         return id;
       } else {
         // If there's no time query string, return the original URL
-        return url;
+        return id;
       }
     } else {
       return null;
@@ -99,10 +99,13 @@ export default function Generate() {
           className={` text-white px-4 py-2 rounded-[10px] flex flex-row items-center justify-center gap-2 font-medium text-lg mx-auto    transition-all duration-300 ease-in-out shadow-md hover:shadow-lg active:shadow-sm outline-2 focus:shadow-lg  ${
             !isLoading &&
             (isLinkValid
-              ? "bg-black/80 hover:bg-black focus:bg-black focus:scale-[1.04] active:scale-[0.96] hover:scale-[1.04]"
+              ? "bg-black/80 hover:bg-black focus:bg-black focus:scale-[1.04] active:scale-[0.96] hover:scale-[1.04] dark:bg-white/10 dark:hover:bg-white/20 dark:focus:bg-white/20"
               : "bg-red-500")
           } ${isLoading && "bg-black/50 scale-[1.2]"}`}
           onClick={() => {
+            if (!isLoading) {
+              setText("");
+            }
             getLink();
           }}
         >
@@ -163,7 +166,7 @@ export default function Generate() {
       </div>
 
       <p
-        className="lg:shadow-xl px-6 py-4 text-left my-10 prose max-w-prose transition-all duration-500 ease-in-out shadow-md mx-4"
+        className="lg:shadow-xl px-6 py-4 text-left my-10 prose max-w-prose transition-all duration-500 ease-in-out shadow-md mx-4 dark:text-white dark:xl:shadow-none dark:bg-black/10"
         style={{
           opacity: text ? 1 : 0,
           transform: `translate(${0}px, ${text ? 0 : 200}px)`,

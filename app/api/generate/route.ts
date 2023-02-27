@@ -9,7 +9,6 @@ const openai = new OpenAIApi(configuration);
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const id = searchParams.get("id");
-
   const res = await fetch(`https://youtubetranscript.com/?server_vid=${id}`);
   const data = await res.text();
 
