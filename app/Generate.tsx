@@ -1,6 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
 
+import i18n from "i18next";
+import { useTranslation } from "react-i18next";
+
 export default function Generate() {
   const [link, setLink] = useState<string>();
   const [isLinkValid, setIsLinkValid] = useState<boolean>(true);
@@ -10,7 +13,9 @@ export default function Generate() {
   async function getTranscription() {
     if (link) {
       const textToAdd = extractYouTubeId(link);
-      const url = `/api/generate?id=${textToAdd}`;
+      const url = `/api/generate?id=${textToAdd}&lang=${i18n.language}`;
+
+      console.log(i18n.language);
 
       fetch(url)
         .then((response) => {
@@ -92,6 +97,8 @@ export default function Generate() {
     }
   }, [link]);
 
+  const { t } = useTranslation();
+
   return (
     <div className="max-w-xl w-full">
       <div className="flex mt-2 lg:mt-5 items-center space-x-3">
@@ -159,8 +166,8 @@ export default function Generate() {
               </svg>
             ))}
           <span>
-            {!isLoading && (isLinkValid ? "Paste link" : "Invalid link")}
-            {isLoading && "Loading"}
+            {!isLoading && (isLinkValid ? t("CTA") : t("CTA_Invalid"))}
+            {isLoading && t("CTA_Loading")}
           </span>
         </button>
       </div>

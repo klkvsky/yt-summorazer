@@ -1,95 +1,88 @@
+"use client";
+
+import i18n from "i18next";
+import { useTranslation, initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+
 import { Inter } from "next/font/google";
-import type { Metadata } from "next";
+
 import Generate from "./Generate";
 
 import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Youtube Summariser ",
-  description: "Generate TLDR for YouTube video under 60 seconds",
-  generator: "Next.js",
-  applicationName: "Youtube Summariser",
-  referrer: "origin-when-cross-origin",
-  keywords: [
-    "Next.js",
-    "React",
-    "JavaScript",
-    "Youtube",
-    "Summariser",
-    "klkvsky",
-  ],
-  authors: [
-    { name: "klkvsky" },
-    { name: "Baiel Kulokovsky", url: "https://bento.me/klkvsky" },
-  ],
-  colorScheme: "light",
-  creator: "klkvsky",
-  publisher: "Baiel Kulikovsky",
-  alternates: {},
-  formatDetection: {
-    email: true,
-    address: false,
-    telephone: false,
-  },
-  openGraph: {
-    title: "Youtube Summariser",
-    description: "Generate TLDR for YouTube video under 60 seconds",
-    url: "https://yt-summorazer.vercel.app/",
-    siteName: "Youtube Summariser",
-    images: [
-      {
-        url: "https://nextjs.org/og.png",
-        width: 800,
-        height: 600,
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next) // passes i18n down to react-i18next
+  .init({
+    // the translations
+    // (tip move them in a JSON file and import them,
+    // or even better, manage them via a UI: https://react.i18next.com/guides/multiple-translation-files#manage-your-translations-with-a-management-gui)
+    resources: {
+      en: {
+        translation: {
+          Welcome: "Quickly Summarize YouTube Videos",
+          Github: "Star on Github",
+          CTA: "Paste link",
+          CTA_Invalid: "Invalid link",
+          CTA_Loading: "Loading",
+          Footer_Powered: "Powered by",
+          Footer_Author: "Made by",
+        },
       },
-      {
-        url: "https://nextjs.org/og-alt.png",
-        width: 1800,
-        height: 1600,
-        alt: "My custom alt",
+      ru: {
+        translation: {
+          Welcome: "Краткий пересказ видео на YouTube",
+          Github: "Посмотреть на Github",
+          CTA: "Вставить ссылку",
+          CTA_Invalid: "Не правильная ссылка",
+          CTA_Loading: "Загрузка",
+          Footer_Powered: "Работает благодаря",
+          Footer_Author: "Сделано",
+        },
       },
-    ],
-    locale: "en-US",
-    type: "website",
-  },
-};
+    },
+    detection: {
+      order: [
+        "querystring",
+        "cookie",
+        "localStorage",
+        "sessionStorage",
+        "navigator",
+        "htmlTag",
+        "path",
+        "subdomain",
+      ],
+
+      // keys or params to lookup language from
+      lookupQuerystring: "lng",
+      lookupCookie: "i18next",
+      lookupLocalStorage: "i18nextLng",
+      lookupSessionStorage: "i18nextLng",
+      lookupFromPathIndex: 0,
+      lookupFromSubdomainIndex: 0,
+
+      // cache user language on
+      caches: ["localStorage"],
+      excludeCacheFor: ["cimode"], // languages to not persist (cookie, localStorage)
+
+      // optional set cookie options, reference:[MDN Set-Cookie docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie)
+    },
+    fallbackLng: "en",
+
+    interpolation: {
+      escapeValue: false, // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
+    },
+  });
 
 export default function Home() {
+  const { t } = useTranslation();
   return (
     <>
-      <main className="min-h-screen w-screen  text-center flex flex-col items-center gap-[20px] pt-[20vh]">
-        <a
-          href="https://github.com/klkvsky/yt-summorazer"
-          className="rounded-full border border-neutral-800 h-[44px] gap-2 px-3 hover:scale-[1.04] transition-all duration-300 ease-in-out cursor-pointer flex flex-row items-center group relative focus:scale-[1.04] hover:bg-black hover:text-white dark:border-neutral-600 dark:hover:bg-neutral-800"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="w-6 h-6 peer-empty:opacity-80 group-hover:peer-empty:opacity-100"
-          >
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"
-            ></path>
-          </svg>
-          <span className="grid place-items-center rounded-full text-sm font-semibold pr-1">
-            Star on Github
-          </span>
-        </a>
-        <h1 className="text-4xl lg:text-5xl font-bold max-w-lg">
-          Quickly Summarize YouTube Videos Using Transcriptions
-        </h1>
-        <p className="hidden">47,118 videos summorized so far.</p>
-
-        <Generate />
-      </main>
-      <footer className="text-center h-16 sm:h-20 w-full sm:pt-2 pt-4 border-t mt-5 flex sm:flex-row flex-col justify-between items-center px-3 space-y-3 sm:mb-0 mb-3 dark:border-t-neutral-800">
+      <nav className="text-center h-16 sm:h-20 w-full flex sm:flex-row flex-col justify-between items-center px-10 pt-4 sm:pt-0">
         <div>
-          Powered by{" "}
+          {t("Footer_Powered")}{" "}
           <a
             href="https://openai.com/"
             target="_blank"
@@ -98,7 +91,7 @@ export default function Home() {
           >
             OpenAI.
           </a>{" "}
-          Made by{" "}
+          {t("Footer_Author")}{" "}
           <a
             href="https://bento.me/klkvsky"
             target="_blank"
@@ -108,7 +101,7 @@ export default function Home() {
             klkvsky
           </a>
         </div>
-        <div className="flex space-x-4 pb-4 sm:pb-0">
+        <div className="flex space-x-4 pb-4 sm:pb-0 mt-4 sm:mt-0">
           <Link
             href="https://twitter.com/klkvsky"
             className="group"
@@ -138,7 +131,35 @@ export default function Home() {
             </svg>
           </Link>
         </div>
-      </footer>
+      </nav>
+      <main className="min-h-screen w-screen  text-center flex flex-col items-center gap-[20px] pt-[20vh] -mt-16 sm:-mt-20">
+        <a
+          href="https://github.com/klkvsky/yt-summorazer"
+          className="rounded-full border border-neutral-800 h-[44px] gap-2 px-3 hover:scale-[1.04] transition-all duration-300 ease-in-out cursor-pointer flex flex-row items-center group relative focus:scale-[1.04] hover:bg-black hover:text-white dark:border-neutral-600 dark:hover:bg-neutral-800"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="w-6 h-6 peer-empty:opacity-80 group-hover:peer-empty:opacity-100"
+          >
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M12.026 2c-5.509 0-9.974 4.465-9.974 9.974 0 4.406 2.857 8.145 6.821 9.465.499.09.679-.217.679-.481 0-.237-.008-.865-.011-1.696-2.775.602-3.361-1.338-3.361-1.338-.452-1.152-1.107-1.459-1.107-1.459-.905-.619.069-.605.069-.605 1.002.07 1.527 1.028 1.527 1.028.89 1.524 2.336 1.084 2.902.829.091-.645.351-1.085.635-1.334-2.214-.251-4.542-1.107-4.542-4.93 0-1.087.389-1.979 1.024-2.675-.101-.253-.446-1.268.099-2.64 0 0 .837-.269 2.742 1.021a9.582 9.582 0 0 1 2.496-.336 9.554 9.554 0 0 1 2.496.336c1.906-1.291 2.742-1.021 2.742-1.021.545 1.372.203 2.387.099 2.64.64.696 1.024 1.587 1.024 2.675 0 3.833-2.33 4.675-4.552 4.922.355.308.675.916.675 1.846 0 1.334-.012 2.41-.012 2.737 0 .267.178.577.687.479C19.146 20.115 22 16.379 22 11.974 22 6.465 17.535 2 12.026 2z"
+            ></path>
+          </svg>
+          <span className="grid place-items-center rounded-full text-sm font-semibold pr-1">
+            {t("Github")}
+          </span>
+        </a>
+        <h1 className="text-4xl lg:text-6xl font-bold max-w-xl">
+          {t("Welcome")}
+        </h1>
+        <p className="hidden">47,118 videos summorized so far.</p>
+
+        <Generate />
+      </main>
     </>
   );
 }
