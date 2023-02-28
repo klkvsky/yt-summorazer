@@ -13,7 +13,10 @@ export default function Generate() {
   async function getTranscription() {
     if (link) {
       const textToAdd = extractYouTubeId(link);
-      const url = `/api/generate?id=${textToAdd}&lang=${i18n.language}`;
+      const url = `/api/generate?id=${textToAdd}&lang=${i18n.language.slice(
+        0,
+        2
+      )}`;
 
       console.log(i18n.language);
 
